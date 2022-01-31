@@ -20,7 +20,7 @@
 
 
     const lightGray = "#eeeeee";
-    const tileSize = 50;
+    const tileSize = canvas.width/7;
 
     class Tile {
         constructor(value, row, col){
@@ -37,7 +37,7 @@
 
     Tile.prototype.drawTile = function(){
             ctx.beginPath();
-            ctx.rect(this.row, this.col, tileSize, tileSize);
+            ctx.rect(tileSize*(this.row+1), tileSize*(this.col+1.5), tileSize, tileSize);
             ctx.fillStyle = this.color;
             ctx.fill();
             ctx.closePath();
@@ -45,12 +45,20 @@
             ctx.beginPath();
             ctx.font = "24px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText("A", this.row+5, this.col+25);
+            ctx.fillText("A", tileSize*(this.row+1), tileSize*(this.col+1.5));
             ctx.closePath();
 
         }
 
-    let exampleTile = new Tile("A", 1, 1);
+    //let exampleTile = new Tile("A", 1, 1);
+    let tiles = new Array(6);
+    let solution = "APPLE";
+    for(let i = 0; i < 6; i++){
+        tiles[i] = new Array(solution.length);
+        for(let j = 0; j < solution.length; j++){
+            tiles[i][j] = new Tile(solution[j], j, i);
+        }
+    }
 
     function draw(){
         ctx.beginPath();
@@ -59,7 +67,11 @@
         ctx.fill();
         ctx.closePath();
 
-        exampleTile.drawTile();
+        for(let i = 0; i < tiles.length; i++){
+            for(let j = 0; j < tiles[i].length; j++){
+                tiles[i][j].drawTile();
+            }
+        }
     }
 
     setInterval(draw, 10);
