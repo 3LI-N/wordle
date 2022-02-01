@@ -21,11 +21,12 @@
 
     const lightGray = "#eeeeee";
     const tileSize = canvas.width/7;
+    const textSize = tileSize*2/3;
 
     class Tile {
         constructor(value, row, col){
             this.value = value;
-            this.row = col;
+            this.row = row;
             this.col = col;
             this.color = lightGray;
             this.userInput = " ";
@@ -43,9 +44,9 @@
             ctx.closePath();
 
             ctx.beginPath();
-            ctx.font = "24px Arial";
+            ctx.font = textSize + "px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText("A", tileSize*(this.row+1), tileSize*(this.col+1.5));
+            ctx.fillText(this.userInput, tileSize*(this.row+1)+tileSize/4, tileSize*(this.col+1.5)+tileSize/1.5);
             ctx.closePath();
 
         }
