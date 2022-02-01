@@ -114,6 +114,18 @@
         return false;
     }
 
+    class TileWord {
+        constructor(value, level){
+            this.value = value;
+            this.level = level;
+            this.userInput = "";
+            this.tiles = new Array(value.length);
+            for(let i = 0; i < value.length; i++){
+                this.tiles[i] = new Tile(value[i], i, level, value.slice(0, i) + value.slice(i+1));
+            }
+        }
+    }
+
     class KeyBoardLetter {
         constructor(value, row, col){
             this.value = value;
@@ -172,14 +184,10 @@
 
 
     //let exampleTile = new Tile("A", 1, 1);
-    let tiles = new Array(6);
+    let tileWords = new Array(6);
     //let solution = "APPLE";
     for(let i = 0; i < 6; i++){
-        tiles[i] = new Array(solution.length);
-        for(let j = 0; j < solution.length; j++){
-            tiles[i][j] = new Tile(solution[j], j, i, solution.slice(0, j) + solution.slice(j+1));
-            //tiles[i][j] = new Tile(solution[j], j, i);
-        }
+        tileWords[i] = new TileWord(solution, i);
     }
 
     function checkValues(guess){
@@ -204,14 +212,14 @@
                         //alert(keys[i][j].value);
                         if(keys[i][j].value === '<'){
                             if(currLetter > 0){
-                                tiles[currLevel][currLetter-1].userInput = ' ';
+                                tileWords[currLevel].tiles[currLetter-1].userInput = ' ';
                                 currLetter--;
                             }
                         }
                         else if(keys[i][j].value === '>'){
                             if(currLetter === 5){
                                 currLetter = 0;
-                                done = checkValues(tiles[currLevel]);
+                                done = checkValues(tileWords[currLevel].tiles);
                                 if(done){
                                     break;
                                 }
@@ -220,7 +228,7 @@
                             //check function
                         }
                         else if(currLetter < solution.length){
-                            tiles[currLevel][currLetter].userInput = keys[i][j].value;
+                            tileWords[currLevel].tiles[currLetter].userInput = keys[i][j].value;
                             currLetter++;
                         }
                     }
@@ -268,9 +276,9 @@
         ctx.fillText("WORDLE", canvas.width/2, canvas.height/10);
         ctx.closePath();
 
-        for(let i = 0; i < tiles.length; i++){
-            for(let j = 0; j < tiles[i].length; j++){
-                tiles[i][j].drawTile();
+        for(let i = 0; i < tileWords.length; i++){
+            for(let j = 0; j < tileWords[i].tiles.length; j++){
+                tileWords[i].tiles[j].drawTile();
             }
         }
 
