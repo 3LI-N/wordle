@@ -226,7 +226,13 @@
                             }
                         }
                         else if(keys[i][j].value === '>'){
-                            if(currLetter === 5){
+                            if(currLetter < 5){
+                                alert("Not enough letters");
+                            }
+                            else if(textByLine.indexOf(tileWords[currLevel].userInput.toLowerCase()) < 0){
+                                alert("Not in word list");
+                            }
+                            else {
                                 currLetter = 0;
                                 //done = checkValues(tileWords[currLevel].tiles);
                                 done = tileWords[currLevel].checkValue();
