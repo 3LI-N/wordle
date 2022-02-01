@@ -22,6 +22,8 @@
     let currLetter = 0;
     let currLevel = 0;
 
+    let lastDraw = false;
+
     const lightGray = "#eeeeee";
     const green = "#19d70f";
     const yellow = "#d3d70f";
@@ -223,10 +225,20 @@
         }
         if(done){
             alert(winningStatements[currLevel]);
+            lastDraw = true;
+            //clearInterval(drawInterval);
+            /*document.location.reload();
+            clearInterval(interval);*/ // Needed for Chrome to end game
+
         }
         else if(currLevel > 5){
             alert(solution);
+            lastDraw = true;
+            //clearInterval(drawInterval);
             //end game
+            /*document.location.reload();
+            clearInterval(interval);*/ // Needed for Chrome to end game
+
         }
         }
     })
@@ -263,9 +275,12 @@
                 keys[i][j].drawLetter();
             }
         }
+        if(lastDraw){
+            clearInterval(drawInterval);
+        }
     }
 
-    setInterval(draw, 10);
+    let drawInterval = setInterval(draw, 10);
 
 </script>
 
