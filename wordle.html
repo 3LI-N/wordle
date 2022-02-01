@@ -83,7 +83,7 @@
             ctx.beginPath();
             ctx.font = textSize + "px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText(this.userInput, this.x+this.size/4, this.y+this.size/1.5);
+            ctx.fillText(this.value, this.x+this.size/4, this.y+this.size/1.5);
             ctx.closePath();
 
     }
@@ -118,6 +118,29 @@
         for(let j = 0; j < solution.length; j++){
             tiles[i][j] = new Tile(solution[j], j, i);
         }
+    }
+
+    window.addEventListener('click', (event) => {
+    if (event.button == 0) {
+        //alert('X: ' + pointerX + ', Y: ' + pointerY);
+        //console.log('Cursor at: ' + pointerX + ', ' + pointerY);
+        for(let i = 0; i < keys.length; i++){
+            for(let j = 0; j < keys[i].length; j++){
+                if(pointerX > keys[i][j].x && pointerX < keys[i][j].x+keys[i][j].size){
+                    if(pointerY > keys[i][j].y && pointerY < keys[i][j].y+keys[i][j].size){
+                        alert(keys[i][j].value);
+                    }
+                }
+            }
+        }
+        }
+    })
+    // this tracks the value of the x and y coordinates of the mouse
+    var pointerX = -1;
+    var pointerY = -1;
+    document.onmousemove = function(event) {
+        pointerX = event.pageX - canvas.offsetLeft;
+        pointerY = event.pageY;
     }
 
     function draw(){
