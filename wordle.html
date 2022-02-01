@@ -60,17 +60,20 @@
 
     }
 
-    /*Title.prototype.checkValue = function(){
+    Tile.prototype.checkValue = function(){
         if(this.userInput === this.value){
             this.color = green;
+            //keyboard needs to be green
         }
         else if(this.otherTiles.indexOf(this.userInput) > -1){
             this.color = yellow;
+            //if light gray this becomes yellow
         }
         else {
             this.color = darkGray;
+            //keyboard needs to be dark gray
         }
-    }*/
+    }
 
     class KeyBoardLetter {
         constructor(value, row, col){
@@ -130,16 +133,16 @@
     for(let i = 0; i < 6; i++){
         tiles[i] = new Array(solution.length);
         for(let j = 0; j < solution.length; j++){
-            //tiles[i][j] = new Tile(solution[j], j, i, solution.substring(0,j)+solution.substring(j+1,solution.length));
-            tiles[i][j] = new Tile(solution[j], j, i);
+            tiles[i][j] = new Tile(solution[j], j, i, solution.slice(0, j) + solution.slice(j+1));
+            //tiles[i][j] = new Tile(solution[j], j, i);
         }
     }
 
-    /*function checkValues(guess){
+    function checkValues(guess){
         for(let i = 0; i < guess.length; i++){
             guess[i].checkValue();
         }
-    }*/
+    }
 
     window.addEventListener('click', (event) => {
     if (event.button == 0) {
@@ -159,7 +162,7 @@
                         else if(keys[i][j].value === '>'){
                             if(currLetter === 5){
                                 currLetter = 0;
-                                //checkValues(tiles[currLevel]);
+                                checkValues(tiles[currLevel]);
                                 currLevel++;
                             }
                             //check function
