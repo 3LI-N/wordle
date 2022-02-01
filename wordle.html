@@ -17,12 +17,13 @@
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
 
-
+    let currLetter = 0;
+    let currLevel = 0;
 
     const lightGray = "#eeeeee";
     const green = "#19d70f";
     const yellow = "#d3d70f";
-    const darkGray = "#cccccc";
+    const darkGray = "#888888";
 
     const tileSize = canvas.width/7;
     const textSize = tileSize*2/3;
@@ -30,13 +31,14 @@
     const keyboardTextSize = keyboardSize*2/3;
 
     class Tile {
-        constructor(value, row, col){
+        constructor(value, row, col, otherTiles){
             this.value = value;
             this.row = row;
             this.col = col;
             this.color = lightGray;
             this.userInput = " ";
             this.size = tileSize;
+            this.otherTiles = otherTiles;
         }
 
         
@@ -57,6 +59,18 @@
             ctx.closePath();
 
     }
+
+    /*Title.prototype.checkValue = function(){
+        if(this.userInput === this.value){
+            this.color = green;
+        }
+        else if(this.otherTiles.indexOf(this.userInput) > -1){
+            this.color = yellow;
+        }
+        else {
+            this.color = darkGray;
+        }
+    }*/
 
     class KeyBoardLetter {
         constructor(value, row, col){
@@ -116,9 +130,16 @@
     for(let i = 0; i < 6; i++){
         tiles[i] = new Array(solution.length);
         for(let j = 0; j < solution.length; j++){
+            //tiles[i][j] = new Tile(solution[j], j, i, solution.substring(0,j)+solution.substring(j+1,solution.length));
             tiles[i][j] = new Tile(solution[j], j, i);
         }
     }
+
+    /*function checkValues(guess){
+        for(let i = 0; i < guess.length; i++){
+            guess[i].checkValue();
+        }
+    }*/
 
     window.addEventListener('click', (event) => {
     if (event.button == 0) {
@@ -128,7 +149,25 @@
             for(let j = 0; j < keys[i].length; j++){
                 if(pointerX > keys[i][j].x && pointerX < keys[i][j].x+keys[i][j].size){
                     if(pointerY > keys[i][j].y && pointerY < keys[i][j].y+keys[i][j].size){
-                        alert(keys[i][j].value);
+                        //alert(keys[i][j].value);
+                        if(keys[i][j].value === '<'){
+                            if(currLetter > 0){
+                                tiles[currLevel][currLetter-1].userInput = ' ';
+                                currLetter--;
+                            }
+                        }
+                        else if(keys[i][j].value === '>'){
+                            if(currLetter === 5){
+                                currLetter = 0;
+                                //checkValues(tiles[currLevel]);
+                                currLevel++;
+                            }
+                            //check function
+                        }
+                        else if(currLetter < solution.length){
+                            tiles[currLevel][currLetter].userInput = keys[i][j].value;
+                            currLetter++;
+                        }
                     }
                 }
             }
