@@ -17,6 +17,8 @@
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
 
+    let keys = new Array(3);
+
     let currLetter = 0;
     let currLevel = 0;
 
@@ -64,14 +66,35 @@
         if(this.userInput === this.value){
             this.color = green;
             //keyboard needs to be green
+            for(let i = 0; i < keys.length; i++){
+                for(let j = 0; j < keys[i].length; j++){
+                    if(this.userInput == keys[i][j].value){
+                        keys[i][j].color = green;
+                    }
+                }
+            }
         }
         else if(this.otherTiles.indexOf(this.userInput) > -1){
             this.color = yellow;
             //if light gray this becomes yellow
+            for(let i = 0; i < keys.length; i++){
+                for(let j = 0; j < keys[i].length; j++){
+                    if(this.userInput == keys[i][j].value && keys[i][j].color === lightGray){
+                        keys[i][j].color = yellow;
+                    }
+                }
+            }
         }
         else {
             this.color = darkGray;
             //keyboard needs to be dark gray
+            for(let i = 0; i < keys.length; i++){
+                for(let j = 0; j < keys[i].length; j++){
+                    if(this.userInput == keys[i][j].value){
+                        keys[i][j].color = darkGray;
+                    }
+                }
+            }
         }
     }
 
@@ -108,7 +131,7 @@
     const secondRow = "ASDFGHJKL";
     const thirdRow = "ZXCVBNM";
 
-    let keys = new Array(3);
+    //let keys = new Array(3);
 
     keys[0] = new Array(firstRow.length);
     for(let i = 0; i < firstRow.length; i++){
