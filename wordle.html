@@ -20,8 +20,14 @@
 
 
     const lightGray = "#eeeeee";
+    const green = "#19d70f";
+    const yellow = "#d3d70f";
+    const darkGray = "#cccccc";
+
     const tileSize = canvas.width/7;
     const textSize = tileSize*2/3;
+    const keyboardSize = canvas.width/15;
+    const keyboardTextSize = keyboardSize*2/3;
 
     class Tile {
         constructor(value, row, col){
@@ -30,6 +36,7 @@
             this.col = col;
             this.color = lightGray;
             this.userInput = " ";
+            this.size = tileSize;
         }
 
         
@@ -37,6 +44,36 @@
     }
 
     Tile.prototype.drawTile = function(){
+            ctx.beginPath();
+            ctx.rect(this.size*(this.row+1), this.size*(this.col+1.5), this.size, this.size);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.font = textSize + "px Arial";
+            ctx.fillStyle = "#000000";
+            ctx.fillText(this.userInput, this.size*(this.row+1)+this.size/4, this.size*(this.col+1.5)+this.size/1.5);
+            ctx.closePath();
+
+    }
+
+    class KeyBoardLetter {
+        constructor(value, row, col){
+            this.value = value;
+            this.row = row;
+            this.col = col;
+            this.x = col;
+            this.y;
+            if(row == 0){
+                this.x
+            }
+            this.color = lightGray;
+            this.size = keyboardSize;
+        }
+    }
+
+    KeyBoardLetter.prototype.drawLetter = function(){
             ctx.beginPath();
             ctx.rect(tileSize*(this.row+1), tileSize*(this.col+1.5), tileSize, tileSize);
             ctx.fillStyle = this.color;
@@ -49,7 +86,7 @@
             ctx.fillText(this.userInput, tileSize*(this.row+1)+tileSize/4, tileSize*(this.col+1.5)+tileSize/1.5);
             ctx.closePath();
 
-        }
+    }
 
     //let exampleTile = new Tile("A", 1, 1);
     let tiles = new Array(6);
