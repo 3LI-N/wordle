@@ -26,7 +26,7 @@
 
     const tileSize = canvas.width/7;
     const textSize = tileSize*2/3;
-    const keyboardSize = canvas.width/15;
+    const keyboardSize = canvas.width/10;
     const keyboardTextSize = keyboardSize*2/3;
 
     class Tile {
@@ -63,10 +63,10 @@
             this.value = value;
             this.row = row;
             this.col = col;
-            this.x = col;
-            this.y;
+            this.x = col*keyboardSize+keyboardSize/2;
+            this.y = canvas.height - 3*keyboardSize + row*keyboardSize;
             if(row == 0){
-                this.x
+                this.x = col*keyboardSize;
             }
             this.color = lightGray;
             this.size = keyboardSize;
@@ -75,7 +75,7 @@
 
     KeyBoardLetter.prototype.drawLetter = function(){
             ctx.beginPath();
-            ctx.rect(tileSize*(this.row+1), tileSize*(this.col+1.5), tileSize, tileSize);
+            ctx.rect(this.x, this.y, this.size, this.size);
             ctx.fillStyle = this.color;
             ctx.fill();
             ctx.closePath();
@@ -83,9 +83,31 @@
             ctx.beginPath();
             ctx.font = textSize + "px Arial";
             ctx.fillStyle = "#000000";
-            ctx.fillText(this.userInput, tileSize*(this.row+1)+tileSize/4, tileSize*(this.col+1.5)+tileSize/1.5);
+            ctx.fillText(this.userInput, this.x+this.size/4, this.y+this.size/1.5);
             ctx.closePath();
 
+    }
+    const firstRow = "QWERTYUIOP";
+    const secondRow = "ASDFGHJKL";
+    const thirdRow = "ZXCVBNM";
+
+    let keys = new Array(3);
+
+    keys[0] = new Array(firstRow.length);
+    for(let i = 0; i < firstRow.length; i++){
+        keys[0][i] = new KeyBoardLetter(firstRow[i], 0, i);
+    }
+
+    keys[1] = new Array(secondRow.length);
+    for(let i = 0; i < secondRow.length; i++){
+        keys[1][i] = new KeyBoardLetter(secondRow[i], 1, i);
+    }
+
+    keys[2] = new Array(thirdRow.length+2);
+    keys[2][0] = new KeyBoardLetter(">", 2, 0);
+    keys[2][thirdRow.length+1] = new KeyBoardLetter("<", 2, thirdRow.length+1);
+    for(let i = 0; i < thirdRow.length; i++){
+        keys[2][i+1] = new KeyBoardLetter(thirdRow[i], 2, i+1);
     }
 
     //let exampleTile = new Tile("A", 1, 1);
@@ -108,6 +130,12 @@
         for(let i = 0; i < tiles.length; i++){
             for(let j = 0; j < tiles[i].length; j++){
                 tiles[i][j].drawTile();
+            }
+        }
+
+        for(let i = 0; i < keys.length; i++){
+            for(let j = 0; j < keys[i].length; j++){
+                keys[i][j].drawLetter();
             }
         }
     }
